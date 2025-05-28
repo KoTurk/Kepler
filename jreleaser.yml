@@ -1,0 +1,45 @@
+project:
+  name: kepler
+  version: 1.0.0-SNAPSHOT
+  description: Kepler demo application
+  longDescription: Kepler demo application
+  links:
+    homepage: https://koturk.nl
+  authors:
+    - Ko Turk
+  license: APACHE-2.0
+  inceptionYear: 2023
+  stereotype: CLI
+  languages:
+    java:
+      version: 11
+      groupId: nl.green
+      artifactId: kepler
+      mainClass: nl.green.kepler.KeplerApplication
+
+release:
+  github:
+    token: "test"
+    overwrite: true
+    changelog:
+      formatted: ALWAYS
+      preset: conventional-commits
+      contributors:
+        format: '- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}'
+
+assemble:
+  javaArchive:
+    kepler:
+      active: ALWAYS
+      formats: [ ZIP ]
+      fileSets:
+        - input: '.'
+          includes: [ 'LICENSE' ]
+      mainJar:
+        path: target/{{distributionName}}-{{projectVersion}}.jar
+
+packagers:
+  docker:
+    active: ALWAYS
+    imageNames:
+      - "myuser/{{projectName}}"
