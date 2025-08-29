@@ -14,7 +14,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>kepler</name>
     <description>kepler</description>
-    <url>https://github.com/KoTurk/kepler</url>
+    <url>https://github.com/koturk/kepler</url>
     <inceptionYear>2025</inceptionYear>
 
     <licenses>
@@ -63,14 +63,75 @@
         </dependency>
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.4.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jreleaser</groupId>
+                <artifactId>jreleaser-maven-plugin</artifactId>
+                <version>1.19.0</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <jreleaser>
+                        <project>
+                            <java>
+                                <mainClass>${app.main.class}</mainClass>
+                            </java>
+                        </project>
+                        <release>
+                            <github>
+                                <token>test</token>
+                            </github>
+                        </release>
+                        <assemble>
+                            <javaArchive>
+                                <kepler>
+                                    <active>ALWAYS</active>
+                                    <formats>
+                                        <format>ZIP</format>
+                                    </formats>
+                                    <fileSets>
+                                        <fileSet>
+                                            <input>.</input>
+                                            <includes>
+                                                <include>LICENSE</include>
+                                            </includes>
+                                        </fileSet>
+                                    </fileSets>
+                                    <mainJar>
+                                        <path>target/${project.artifactId}-${project.version}.jar</path>
+                                    </mainJar>
+                                </kepler>
+                            </javaArchive>
+                        </assemble>
+                        <packagers>
+                            <docker>
+                                <active>ALWAYS</active>
+                                <templateDirectory>src/main/resources/docker</templateDirectory>
+                                <imageNames>
+                                    <imageName>koturk/kepler:${project.scm.tag}</imageName>
+                                    <imageName>koturk/kepler:latest</imageName>
+                                </imageNames>
+                            </docker>
+                        </packagers>
+                    </jreleaser>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 
 </project>
