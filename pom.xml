@@ -38,6 +38,7 @@
         <url>https://https://github.com/KoTurk/kepler.git</url>
         <tag>HEAD</tag>
     </scm>
+
     <properties>
         <app.main.class>nl.green.kepler.KeplerApplication</app.main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,6 +47,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.release>${java.version}</maven.compiler.release>
     </properties>
+    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -81,7 +83,7 @@
             <plugin>
                 <groupId>org.jreleaser</groupId>
                 <artifactId>jreleaser-maven-plugin</artifactId>
-                <version>1.19.0</version>
+                <version>1.20.0</version>
                 <inherited>false</inherited>
                 <configuration>
                     <jreleaser>
@@ -117,9 +119,9 @@
                             </javaArchive>
                         </assemble>
                         <packagers>
+
                             <docker>
                                 <active>ALWAYS</active>
-                                <templateDirectory>src/main/resources/docker</templateDirectory>
                                 <imageNames>
                                     <imageName>koturk/kepler:${project.scm.tag}</imageName>
                                     <imageName>koturk/kepler:latest</imageName>

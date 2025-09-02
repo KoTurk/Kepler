@@ -1,34 +1,35 @@
-package nl.green.kepler.earth;
+package nl.green.kepler.space;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.green.kepler.mapper.PageHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import nl.green.kepler.mapper.PageHelper;
 
 @RestController
-@RequestMapping("earth")
-public class EarthController {
+@RequestMapping("space")
+public class SpaceController {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    @Value("${nasa.data.api.key}") private String token;
+    @Value("${nasa.data.api.key}")
+    private String token;
 
-    public EarthController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public SpaceController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
 
     @GetMapping
-    public String earth() throws JsonProcessingException {
+    public String space() throws JsonProcessingException {
         var url = "https://api.nasa.gov/planetary/apod?api_key=" + token + "&count=1&concept_tags";
 
         var response = restTemplate.getForObject(url, String.class);
-        System.out.println(response);
-        var planetResponses = objectMapper.readValue(response, EarthResponse[].class);
+        var planetResponses = objectMapper.readValue(response, AstronomyResponse[].class);
         var planetResponse = planetResponses[0];
-        return PageHelper.getEarthPage(planetResponse);
+
+        return PageHelper.getSpacePage(planetResponse);
     }
 }

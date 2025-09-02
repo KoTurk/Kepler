@@ -17,16 +17,6 @@ project:
       artifactId: kepler
       mainClass: nl.green.kepler.KeplerApplication
 
-release:
-  github:
-    token: "test"
-
-distributions:
-  kepler:
-    type: JAVA_BINARY
-    artifacts:
-      - path: target/kepler-1.0.0-SNAPSHOT.jar
-
 assemble:
   javaArchive:
     kepler:
